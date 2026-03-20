@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
 import AppLayout from './components/layout/AppLayout'
 import ProtectedRoute from './components/common/ProtectedRoute'
 
@@ -25,17 +26,10 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route
-            index
-            element={
-              <div className="text-zinc-500 dark:text-zinc-400 p-4 text-sm">
-                Dashboard content coming soon…
-              </div>
-            }
-          />
-          <Route path="users" element={<div className="text-zinc-500 dark:text-zinc-400 p-4 text-sm">Users coming soon…</div>} />
-          <Route path="analytics" element={<div className="text-zinc-500 dark:text-zinc-400 p-4 text-sm">Analytics coming soon…</div>} />
-          <Route path="settings" element={<div className="text-zinc-500 dark:text-zinc-400 p-4 text-sm">Settings coming soon…</div>} />
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<Dashboard />} />
+          <Route path="analytics" element={<Dashboard />} />
+          <Route path="settings" element={<Dashboard />} />
         </Route>
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
