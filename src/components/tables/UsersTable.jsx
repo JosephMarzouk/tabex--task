@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Search } from 'lucide-react';
+import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import mockData from '../../data/mockData.json';
 
-function SkeletonRows() {
+const ROWS_OPTIONS = [5, 10, 20];
+
+function SkeletonRows({ count }) {
   return (
     <>
-      {Array.from({ length: 5 }).map((_, i) => (
+      {Array.from({ length: count }).map((_, i) => (
         <tr key={i}>
           <td className="px-4 py-3">
             <div className="flex items-center gap-3">
@@ -75,33 +77,35 @@ function UserRow({ user }) {
         </td>
       </tr>
       {expanded && (
-        <tr className="bg-zinc-50 dark:bg-zinc-800/30">
-          <td colSpan={5} className="px-4 py-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Phone</p>
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.phone}</p>
-              </div>
-              <div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Department</p>
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.department}</p>
-              </div>
-              <div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Join Date</p>
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                  {new Date(user.joinDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                  })}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Last Login</p>
-                <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.lastLogin}</p>
-              </div>
-            </div>
+        <tr className="bg-zinc-50 dark:bg-zinc-800/30 border-b border-zinc-100 dark:border-zinc-800">
+          {/* Name column → Phone */}
+          <td className="px-4 py-3">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Phone</p>
+            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.phone}</p>
           </td>
+          {/* Email column → Department */}
+          <td className="px-4 py-3">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Department</p>
+            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.department}</p>
+          </td>
+          {/* Role column → Join Date */}
+          <td className="px-4 py-3">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Join Date</p>
+            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+              {new Date(user.joinDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </p>
+          </td>
+          {/* Status column → Last Login */}
+          <td className="px-4 py-3">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Last Login</p>
+            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.lastLogin}</p>
+          </td>
+          {/* Expand button column → empty */}
+          <td />
         </tr>
       )}
     </>
@@ -112,6 +116,8 @@ function UsersTable() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -130,8 +136,14 @@ function UsersTable() {
     );
   });
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / rowsPerPage));
+  const safePage = Math.min(currentPage, totalPages);
+  const pageStart = (safePage - 1) * rowsPerPage;
+  const paginated = filtered.slice(pageStart, pageStart + rowsPerPage);
+
   return (
     <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+      {/* Header */}
       <div className="p-4 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
@@ -147,12 +159,14 @@ function UsersTable() {
             <Input
               placeholder="Search by name, email, role..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
               className="pl-9"
             />
           </div>
         </div>
       </div>
+
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
@@ -169,7 +183,7 @@ function UsersTable() {
           </thead>
           <tbody>
             {loading ? (
-              <SkeletonRows />
+              <SkeletonRows count={rowsPerPage} />
             ) : filtered.length === 0 ? (
               <tr>
                 <td colSpan={5} className="px-4 py-12 text-center text-zinc-500">
@@ -177,11 +191,68 @@ function UsersTable() {
                 </td>
               </tr>
             ) : (
-              filtered.map((user) => <UserRow key={user.id} user={user} />)
+              paginated.map((user) => <UserRow key={user.id} user={user} />)
             )}
           </tbody>
         </table>
       </div>
+
+      {/* Pagination footer */}
+      {!loading && filtered.length > 0 && (
+        <div className="px-4 py-3 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between gap-4 flex-wrap">
+          {/* Rows per page */}
+          <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <span>Rows per page:</span>
+            <select
+              value={rowsPerPage}
+              onChange={(e) => { setRowsPerPage(Number(e.target.value)); setCurrentPage(1); }}
+              className="border border-zinc-200 dark:border-zinc-700 rounded-md px-2 py-1 text-sm bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+              {ROWS_OPTIONS.map((n) => (
+                <option key={n} value={n}>{n}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Page info + controls */}
+          <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <span>
+              {pageStart + 1}–{Math.min(pageStart + rowsPerPage, filtered.length)} of {filtered.length}
+            </span>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              disabled={safePage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`h-8 w-8 rounded-md text-sm font-medium transition-colors ${
+                  page === safePage
+                    ? 'bg-indigo-600 text-white'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              disabled={safePage === totalPages}
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
