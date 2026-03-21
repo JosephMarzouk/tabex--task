@@ -5,6 +5,21 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { useAuth } from "../hooks/useAuth";
 import users from "../data/users.json";
+import InputPlaceHolder from "../components/layout/InputPlaceHolder";
+function FormField({ label, type, placeholder, value, onChange, autoComplete }) {
+  return (
+    <div className="space-y-1.5">
+      <label className="text-sm font-medium text-subtle">{label}</label>
+      <Input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        autoComplete={autoComplete}
+      />
+    </div>
+  );
+}
 
 function Login() {
   const navigate = useNavigate();
@@ -61,37 +76,23 @@ function Login() {
 
         <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-subtle">
-                Email
-              </label>
-              <Input
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (error) setError("");
-                }}
-                autoComplete="email"
-              />
-            </div>
+            <FormField
+              label="Email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); if (error) setError(""); }}
+              autoComplete="email"
+            />
 
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-subtle">
-                Password
-              </label>
-              <Input
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (error) setError("");
-                }}
-                autoComplete="current-password"
-              />
-            </div>
+            <FormField
+              label="Password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); if (error) setError(""); }}
+              autoComplete="current-password"
+            />
 
             {error && (
               <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-3 py-2.5">
@@ -136,12 +137,4 @@ function Login() {
 
 export default Login;
 
-const InputPlaceHolder = ({ email, password, name }) => {
-  return (
-    <div className="bg-surface rounded p-2">
-      <p className="font-medium text-subtle">{name}</p>
-      <p>{email}</p>
-      <p>{password}</p>
-    </div>
-  );
-};
+

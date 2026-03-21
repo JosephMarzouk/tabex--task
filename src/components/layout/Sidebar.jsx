@@ -80,13 +80,6 @@ function SidebarContent({ collapsed, onToggleCollapse }) {
           <NavItem key={item.to} item={item} collapsed={collapsed} />
         ))}
       </nav>
-
-      {/* Footer */}
-      <div className="p-3 border-t border-zinc-700/50">
-        <p className={cn('text-xs text-zinc-500', collapsed && 'text-center')}>
-          {collapsed ? 'v1' : 'Tabex v1.0.0'}
-        </p>
-      </div>
     </div>
   );
 }
