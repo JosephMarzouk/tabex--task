@@ -30,6 +30,23 @@ function SkeletonRows({ count }) {
   );
 }
 
+function DetailCell({ label, children }) {
+  return (
+    <td className="px-4 py-3">
+      <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">{label}</p>
+      <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{children}</p>
+    </td>
+  );
+}
+
+function PageNavButton({ children, disabled, onClick }) {
+  return (
+    <Button variant="ghost" size="icon" className="h-8 w-8" disabled={disabled} onClick={onClick}>
+      {children}
+    </Button>
+  );
+}
+
 function UserRow({ user }) {
   const [expanded, setExpanded] = useState(false);
   const initials = user.name
@@ -79,33 +96,16 @@ function UserRow({ user }) {
       </tr>
       {expanded && (
         <tr className="bg-zinc-50 dark:bg-zinc-800/30 border-b border-zinc-100 dark:border-zinc-800">
-          {/* Name column → Phone */}
-          <td className="px-4 py-3">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Phone</p>
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.phone}</p>
-          </td>
-          {/* Email column → Department */}
-          <td className="px-4 py-3">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Department</p>
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.department}</p>
-          </td>
-          {/* Role column → Join Date */}
-          <td className="px-4 py-3">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Join Date</p>
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-              {new Date(user.joinDate).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-              })}
-            </p>
-          </td>
-          {/* Status column → Last Login */}
-          <td className="px-4 py-3">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-1">Last Login</p>
-            <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">{user.lastLogin}</p>
-          </td>
-          {/* Expand button column → empty */}
+          <DetailCell label="Phone">{user.phone}</DetailCell>
+          <DetailCell label="Department">{user.department}</DetailCell>
+          <DetailCell label="Join Date">
+            {new Date(user.joinDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </DetailCell>
+          <DetailCell label="Last Login">{user.lastLogin}</DetailCell>
           <td />
         </tr>
       )}
@@ -221,15 +221,9 @@ function UsersTable() {
             <span>
               {pageStart + 1}–{Math.min(pageStart + rowsPerPage, filtered.length)} of {filtered.length}
             </span>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              disabled={safePage === 1}
-              onClick={() => setCurrentPage((p) => p - 1)}
-            >
+            <PageNavButton disabled={safePage === 1} onClick={() => setCurrentPage((p) => p - 1)}>
               <ChevronLeft className="h-4 w-4" />
-            </Button>
+            </PageNavButton>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
                 key={page}
@@ -243,15 +237,9 @@ function UsersTable() {
                 {page}
               </button>
             ))}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              disabled={safePage === totalPages}
-              onClick={() => setCurrentPage((p) => p + 1)}
-            >
+            <PageNavButton disabled={safePage === totalPages} onClick={() => setCurrentPage((p) => p + 1)}>
               <ChevronRight className="h-4 w-4" />
-            </Button>
+            </PageNavButton>
           </div>
         </div>
       )}

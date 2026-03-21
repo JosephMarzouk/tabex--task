@@ -1,25 +1,16 @@
-import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Bell, Menu, LogOut, User } from 'lucide-react';
-import { Button } from '../ui/button';
-import { Avatar, AvatarFallback } from '../ui/avatar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import { Badge } from '../ui/badge';
-import ThemeToggle from '../common/ThemeToggle';
-import mockData from '../../data/mockData.json';
-
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Menu, LogOut, User } from "lucide-react";
+import { Button } from "../ui/button";
+import ThemeToggle from "../common/ThemeToggle";
+import mockData from "../../data/mockData.json";
+import HeaderProfileDropdown from "./HeaderProfileDropdown";
+import HeaderNotficationDropdown from "./HeaderNotficationDropdown";
 const pageTitle = {
-  '/dashboard': 'Dashboard',
-  '/dashboard/users': 'Users',
-  '/dashboard/analytics': 'Analytics',
-  '/dashboard/settings': 'Settings',
+  "/dashboard": "Dashboard",
+  "/dashboard/users": "Users",
+  "/dashboard/analytics": "Analytics",
+  "/dashboard/settings": "Settings",
 };
 
 function Header({ user, onLogout, onMobileMenuOpen }) {
@@ -29,13 +20,13 @@ function Header({ user, onLogout, onMobileMenuOpen }) {
 
   const notifications = mockData.notifications;
   const unreadCount = notifications.filter(
-    (n) => !n.read && !readIds.includes(n.id)
+    (n) => !n.read && !readIds.includes(n.id),
   ).length;
-  const title = pageTitle[location.pathname] || 'Dashboard';
+  const title = pageTitle[location.pathname] || "Dashboard";
 
   const handleLogout = () => {
     onLogout();
-    navigate('/login');
+    navigate("/login");
   };
 
   const markRead = (id) => {
@@ -53,97 +44,22 @@ function Header({ user, onLogout, onMobileMenuOpen }) {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        <h1 className="text-lg font-semibold text-foreground">
-          {title}
-        </h1>
+        <h1 className="text-lg font-semibold text-foreground">{title}</h1>
       </div>
 
       <div className="flex items-center gap-2">
         <ThemeToggle />
 
-        {/* Notifications */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-9 w-9">
-              <Bell className="h-4 w-4" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 h-4 w-4 rounded-full bg-red-500 text-white text-xs flex items-center justify-center font-medium">
-                  {unreadCount}
-                </span>
-              )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel className="flex items-center justify-between">
-              <span>Notifications</span>
-              {unreadCount > 0 && (
-                <Badge variant="danger" className="text-xs">
-                  {unreadCount} unread
-                </Badge>
-              )}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {notifications.map((n) => {
-              const isRead = n.read || readIds.includes(n.id);
-              return (
-                <DropdownMenuItem
-                  key={n.id}
-                  onClick={() => markRead(n.id)}
-                  className="flex-col items-start gap-1 py-3 cursor-pointer"
-                >
-                  <div className="flex items-center gap-2 w-full">
-                    {!isRead && (
-                      <span className="h-2 w-2 rounded-full bg-primary shrink-0" />
-                    )}
-                    <span className={`font-medium text-sm ${isRead ? 'text-muted' : 'text-foreground'}`}>
-                      {n.title}
-                    </span>
-                    <span className="ml-auto text-xs text-muted">{n.time}</span>
-                  </div>
-                  <p className="text-xs text-muted pl-4">{n.message}</p>
-                </DropdownMenuItem>
-              );
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* Notifications Dropdown */}
 
-        {/* Profile */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex items-center gap-2 px-2 h-9">
-              <Avatar className="h-7 w-7">
-                <AvatarFallback className="text-xs">{user?.avatar || 'U'}</AvatarFallback>
-              </Avatar>
-              <div className="hidden sm:flex flex-col items-start">
-                <span className="text-xs font-medium text-foreground">
-                  {user?.name}
-                </span>
-                <span className="text-xs text-muted">{user?.role}</span>
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>
-              <div className="flex flex-col">
-                <span className="font-medium">{user?.name}</span>
-                <span className="text-xs text-muted font-normal">{user?.email}</span>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              <User className="mr-2 h-4 w-4" />
-              Profile
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={handleLogout}
-              className="cursor-pointer text-red-600 focus:text-red-600 hover:text-red-600 dark:text-red-400"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <HeaderNotficationDropdown
+          unreadCount={unreadCount}
+          notifications={notifications}
+          readIds={readIds}
+          markRead={markRead}
+        />
+        {/* Profile  Dropdown */}
+       <HeaderProfileDropdown user={user} handleLogout={handleLogout} />
       </div>
     </header>
   );
