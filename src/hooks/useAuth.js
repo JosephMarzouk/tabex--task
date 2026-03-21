@@ -18,7 +18,11 @@ export function useAuth() {
   }, []);
 
   const login = (userData) => {
-    const auth = { token: 'fake-token-' + Date.now(), user: userData };
+    const auth = {
+      token: 'fake-token-' + Date.now(),
+      user: userData,
+      expiresAt: Date.now() + 8 * 60 * 60 * 1000, // 8 hours
+    };
     localStorage.setItem('auth', JSON.stringify(auth));
     setUser(userData);
   };
