@@ -109,6 +109,116 @@
       "department": "Marketing",
       "joinDate": "2024-01-08",
       "lastLogin": "2026-03-05 12:00"
+    },
+     {
+      "id": 11,
+      "name": "Alice Johnson",
+      "email": "alice@company.com",
+      "role": "Admin",
+      "status": "Active",
+      "phone": "+1 (555) 100-0001",
+      "department": "Engineering",
+      "joinDate": "2021-03-15",
+      "lastLogin": "2026-03-19 09:30"
+    },
+    {
+      "id": 12,
+      "name": "Bob Martinez",
+      "email": "bob@company.com",
+      "role": "User",
+      "status": "Active",
+      "phone": "+1 (555) 100-0002",
+      "department": "Marketing",
+      "joinDate": "2022-07-01",
+      "lastLogin": "2026-03-18 14:45"
+    },
+    {
+      "id": 13,
+      "name": "Carol White",
+      "email": "carol@company.com",
+      "role": "Manager",
+      "status": "Active",
+      "phone": "+1 (555) 100-0003",
+      "department": "HR",
+      "joinDate": "2020-11-20",
+      "lastLogin": "2026-03-19 11:00"
+    },
+    {
+      "id": 14,
+      "name": "David Kim",
+      "email": "david@company.com",
+      "role": "User",
+      "status": "Inactive",
+      "phone": "+1 (555) 100-0004",
+      "department": "Finance",
+      "joinDate": "2023-01-10",
+      "lastLogin": "2026-02-28 16:20"
+    },
+    {
+      "id": 15,
+      "name": "Eva Brown",
+      "email": "eva@company.com",
+      "role": "User",
+      "status": "Active",
+      "phone": "+1 (555) 100-0005",
+      "department": "Design",
+      "joinDate": "2022-04-22",
+      "lastLogin": "2026-03-17 08:15"
+    },
+    {
+      "id": 16,
+      "name": "Frank Lee",
+      "email": "frank@company.com",
+      "role": "Manager",
+      "status": "Active",
+      "phone": "+1 (555) 100-0006",
+      "department": "Engineering",
+      "joinDate": "2019-06-05",
+      "lastLogin": "2026-03-19 10:00"
+    },
+    {
+      "id": 17,
+      "name": "Grace Chen",
+      "email": "grace@company.com",
+      "role": "User",
+      "status": "Inactive",
+      "phone": "+1 (555) 100-0007",
+      "department": "Sales",
+      "joinDate": "2023-09-14",
+      "lastLogin": "2026-01-30 13:50"
+    },
+    {
+      "id": 18,
+      "name": "Hank Wilson",
+      "email": "hank@company.com",
+      "role": "User",
+      "status": "Active",
+      "phone": "+1 (555) 100-0008",
+      "department": "Support",
+      "joinDate": "2021-12-01",
+      "lastLogin": "2026-03-19 07:45"
+    },
+    {
+      "id": 19,
+      "name": "Iris Davis",
+      "email": "iris@company.com",
+      "role": "Admin",
+      "status": "Active",
+      "phone": "+1 (555) 100-0009",
+      "department": "IT",
+      "joinDate": "2020-02-28",
+      "lastLogin": "2026-03-18 17:30"
+    },
+    {
+      "id": 20,
+      "name": "Jake Taylor",
+      "email": "jake@company.com",
+      "role": "User",
+      "status": "Inactive",
+      "phone": "+1 (555) 100-0010",
+      "department": "Marketing",
+      "joinDate": "2024-01-08",
+      "lastLogin": "2026-03-05 12:00"
     }
   ],
   "notifications": [
