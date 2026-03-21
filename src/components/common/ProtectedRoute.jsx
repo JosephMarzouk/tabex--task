@@ -1,6 +1,7 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 function ProtectedRoute({ children }) {
+  const location = useLocation();
   const stored = localStorage.getItem('auth');
   let isAuthenticated = false;
 
@@ -9,12 +10,12 @@ function ProtectedRoute({ children }) {
       const parsed = JSON.parse(stored);
       isAuthenticated = !!parsed.token;
     } catch {
-      isAuthenticated = false;
+      localStorage.removeItem('auth');
     }
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   return children;
