@@ -4,17 +4,69 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --border: 240 5.9% 90%;
+    /* Brand */
+    --primary: 79 70 229;           /* indigo-600 */
+    --primary-light: 224 231 255;   /* indigo-100 */
+    --primary-muted: 238 242 255;   /* indigo-50  */
+
+    /* Backgrounds */
+    --background: 255 255 255;      /* white      */
+    --card:       255 255 255;      /* white      */
+    --surface:    250 250 250;      /* zinc-50    */
+    --sidebar:    24 24 27;         /* zinc-900   */
+
+    /* Border */
+    --border: 228 228 231;          /* zinc-200   */
+
+    /* Text */
+    --foreground: 9 9 11;           /* zinc-900   */
+    --muted:      113 113 122;      /* zinc-500   */
+    --subtle:     63 63 70;         /* zinc-700   */
   }
+
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 7%;
-    --border: 240 3.7% 15.9%;
+    /* Brand — stays the same hue */
+    --primary: 79 70 229;
+    --primary-light: 49 46 129;     /* indigo-900 */
+    --primary-muted: 30 27 75;      /* indigo-950 */
+
+    /* Backgrounds */
+    --background: 9 9 11;           /* zinc-950   */
+    --card:       24 24 27;         /* zinc-900   */
+    --surface:    39 39 42;         /* zinc-800   */
+    --sidebar:    24 24 27;         /* zinc-900   */
+
+    /* Border */
+    --border: 39 39 42;             /* zinc-800   */
+
+    /* Text */
+    --foreground: 250 250 250;      /* zinc-100   */
+    --muted:      161 161 170;      /* zinc-400   */
+    --subtle:     212 212 216;      /* zinc-300   */
   }
+}
+
+@layer utilities {
+  /* Backgrounds */
+  .bg-background  { background-color: rgb(var(--background)); }
+  .bg-card        { background-color: rgb(var(--card)); }
+  .bg-surface     { background-color: rgb(var(--surface)); }
+  .bg-sidebar     { background-color: rgb(var(--sidebar)); }
+  .bg-primary     { background-color: rgb(var(--primary)); }
+  .bg-primary-light { background-color: rgb(var(--primary-light)); }
+  .bg-primary-muted { background-color: rgb(var(--primary-muted)); }
+
+  /* Header — frosted glass with opacity */
+  .bg-background-blur { background-color: rgb(var(--background) / 0.95); }
+
+  /* Text */
+  .text-foreground { color: rgb(var(--foreground)); }
+  .text-muted      { color: rgb(var(--muted)); }
+  .text-subtle     { color: rgb(var(--subtle)); }
+  .text-primary    { color: rgb(var(--primary)); }
+
+  /* Border */
+  .border-border   { border-color: rgb(var(--border)); }
 }
 
 * {
@@ -25,17 +77,11 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, sans-serif;
-  @apply bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
 }
 
-/* Custom scrollbar for dark mode */
-.dark ::-webkit-scrollbar {
-  width: 6px;
-}
-.dark ::-webkit-scrollbar-track {
-  background: rgb(24 24 27);
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: rgb(63 63 70);
-  border-radius: 3px;
-}
+/* Scrollbar adapts to theme */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: rgb(var(--sidebar)); }
+::-webkit-scrollbar-thumb  { background: rgb(var(--border)); border-radius: 3px; }
