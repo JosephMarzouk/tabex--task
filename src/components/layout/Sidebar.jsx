@@ -35,7 +35,7 @@ function NavItem({ item, collapsed }) {
       className={cn(
         'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150',
         isActive
-          ? 'bg-indigo-600 text-white'
+          ? 'bg-primary text-white'
           : 'text-zinc-400 hover:text-white hover:bg-zinc-700/60'
       )}
     >
@@ -49,11 +49,11 @@ function NavItem({ item, collapsed }) {
 
 function SidebarContent({ collapsed, onToggleCollapse }) {
   return (
-    <div className="flex flex-col h-full bg-zinc-900">
+    <div className="flex flex-col h-full bg-sidebar">
       {/* Logo */}
       <div className="flex items-center justify-between px-4 h-16 border-b border-zinc-700/50">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
             <Zap className="h-4 w-4 text-white" />
           </div>
           {!collapsed && (
@@ -111,7 +111,7 @@ function Sidebar({ mobileOpen, onMobileClose }) {
   if (windowWidth < 768) {
     return (
       <Sheet open={mobileOpen} onOpenChange={onMobileClose}>
-        <SheetContent side="left" className="p-0 w-72 bg-zinc-900 border-zinc-700">
+        <SheetContent side="left" className="p-0 w-72 bg-sidebar border-zinc-700">
           <SheetHeader className="sr-only">
             <SheetTitle>Navigation Menu</SheetTitle>
           </SheetHeader>
