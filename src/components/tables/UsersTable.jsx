@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ChevronDown, ChevronUp, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
 import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
-import mockData from '../../data/mockData.json';
+import { fetchUsers, selectUsers, selectUsersStatus } from '../../store/usersSlice';
 
 const ROWS_OPTIONS = [5, 10, 20];
 
@@ -113,19 +114,20 @@ function UserRow({ user }) {
 }
 
 function UsersTable() {
+  const dispatch = useDispatch();
+  const users = useSelector(selectUsers);
+  const status = useSelector(selectUsersStatus);
+  const loading = status === 'idle' || status === 'loading';
+
   const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setUsers(mockData.users);
-      setLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchUsers());
+    }
+  }, [status, dispatch]);
 
   const filtered = users.filter((u) => {
     const q = search.toLowerCase();

@@ -1,7 +1,8 @@
 import { Users, TrendingUp, Activity, UserCheck } from 'lucide-react';
+import { useSelector } from 'react-redux';
 import UsersTable from '../components/tables/UsersTable';
 import { useLocation } from 'react-router-dom';
-import mockData from '../data/mockData.json';
+import { selectUsers } from '../store/usersSlice';
 
 function StatCard({ icon: Icon, label, value, trend, color }) {
   return (
@@ -36,8 +37,9 @@ function PlaceholderPage({ title, description }) {
 
 function Dashboard() {
   const location = useLocation();
-  const totalUsers = mockData.users.length;
-  const activeUsers = mockData.users.filter((u) => u.status === 'Active').length;
+  const users = useSelector(selectUsers);
+  const totalUsers = users.length;
+  const activeUsers = users.filter((u) => u.status === 'Active').length;
 
   if (location.pathname === '/dashboard/analytics') {
     return <PlaceholderPage title="Analytics" description="Analytics dashboard coming soon." />;
