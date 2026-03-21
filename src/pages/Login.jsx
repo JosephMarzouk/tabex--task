@@ -1,23 +1,24 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Zap } from 'lucide-react';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { useAuth } from '../hooks/useAuth';
-import users from '../data/users.json';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Zap } from "lucide-react";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { useAuth } from "../hooks/useAuth";
+import users from "../data/users.json";
 
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const validate = () => {
-    if (!email.trim()) return 'Email is required.';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Enter a valid email address.';
-    if (!password.trim()) return 'Password is required.';
+    if (!email.trim()) return "Email is required.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      return "Enter a valid email address.";
+    if (!password.trim()) return "Password is required.";
     return null;
   };
 
@@ -28,23 +29,23 @@ function Login() {
       setError(validationError);
       return;
     }
-    setError('');
+    setError("");
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 800));
     const found = users.find(
-      (u) => u.email === email && u.password === password
+      (u) => u.email === email && u.password === password,
     );
     setLoading(false);
     if (found) {
       login(found);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } else {
-      setError('Invalid email or password. Please try again.');
+      setError("Invalid email or password. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-zinc-50  dark:bg-zinc-950 p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 mb-4">
@@ -70,7 +71,7 @@ function Login() {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  if (error) setError('');
+                  if (error) setError("");
                 }}
                 autoComplete="email"
               />
@@ -86,7 +87,7 @@ function Login() {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                  if (error) setError('');
+                  if (error) setError("");
                 }}
                 autoComplete="current-password"
               />
@@ -94,22 +95,20 @@ function Login() {
 
             {error && (
               <div className="rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 px-3 py-2.5">
-                <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+                <p className="text-sm text-red-700 dark:text-red-400">
+                  {error}
+                </p>
               </div>
             )}
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loading}
-            >
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
                 <span className="flex items-center gap-2">
                   <span className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   Signing in...
                 </span>
               ) : (
-                'Sign In'
+                "Sign In"
               )}
             </Button>
           </form>
@@ -119,16 +118,14 @@ function Login() {
               Demo credentials:
             </p>
             <div className="grid grid-cols-2 gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-              <div className="bg-zinc-50 dark:bg-zinc-800 rounded p-2">
-                <p className="font-medium text-zinc-700 dark:text-zinc-300">Admin</p>
-                <p>admin@demo.com</p>
-                <p>admin123</p>
-              </div>
-              <div className="bg-zinc-50 dark:bg-zinc-800 rounded p-2">
-                <p className="font-medium text-zinc-700 dark:text-zinc-300">User</p>
-                <p>user@demo.com</p>
-                <p>user123</p>
-              </div>
+              {users.map((u) => (
+                <InputPlaceHolder
+                  key={u.email}
+                  email={u.email}
+                  password={u.password}
+                  name={u.name}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -138,3 +135,13 @@ function Login() {
 }
 
 export default Login;
+
+const InputPlaceHolder = ({ email, password, name }) => {
+  return (
+    <div className="bg-zinc-50 dark:bg-zinc-800 rounded p-2">
+      <p className="font-medium text-zinc-700 dark:text-zinc-300">{name}</p>
+      <p>{email}</p>
+      <p>{password}</p>
+    </div>
+  );
+};

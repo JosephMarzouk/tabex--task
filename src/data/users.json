@@ -1,4 +1,4 @@
 [
-  { "email": "admin@demo.com", "password": "admin123", "name": "Admin User", "role": "Admin", "avatar": "AU" },
-  { "email": "user@demo.com", "password": "user123", "name": "John Doe", "role": "User", "avatar": "JD" }
+  { "email": "admin@demo.com", "password": "admin123", "name": "Admin User", "avatar": "AU" },
+  { "email": "user@demo.com", "password": "user123", "name": "Joseph Marzouk", "avatar": "JM" }
 ]
