@@ -5,7 +5,7 @@ import mockData from '../data/mockData.json';
 
 function StatCard({ icon: Icon, label, value, trend, color }) {
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-5">
+    <div className="bg-card rounded-xl border border-border shadow-sm p-5">
       <div className="flex items-center justify-between mb-3">
         <div className={`w-10 h-10 rounded-lg ${color} flex items-center justify-center`}>
           <Icon className="h-5 w-5 text-white" />
@@ -16,8 +16,8 @@ function StatCard({ icon: Icon, label, value, trend, color }) {
           </span>
         )}
       </div>
-      <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{value}</p>
-      <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">{label}</p>
+      <p className="text-2xl font-bold text-foreground">{value}</p>
+      <p className="text-sm text-muted mt-0.5">{label}</p>
     </div>
   );
 }
@@ -25,11 +25,11 @@ function StatCard({ icon: Icon, label, value, trend, color }) {
 function PlaceholderPage({ title, description }) {
   return (
     <div className="flex flex-col items-center justify-center h-64 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center mb-4">
-        <Activity className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+      <div className="w-16 h-16 rounded-2xl bg-primary-muted flex items-center justify-center mb-4">
+        <Activity className="h-8 w-8 text-primary" />
       </div>
-      <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-1">{title}</h2>
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">{description}</p>
+      <h2 className="text-lg font-semibold text-foreground mb-1">{title}</h2>
+      <p className="text-sm text-muted">{description}</p>
     </div>
   );
 }
@@ -55,7 +55,7 @@ function Dashboard() {
           label="Total Users"
           value={totalUsers}
           trend="+12%"
-          color="bg-indigo-600"
+          color="bg-primary"
         />
         <StatCard
           icon={UserCheck}

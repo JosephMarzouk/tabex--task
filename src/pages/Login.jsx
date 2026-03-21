@@ -45,24 +45,24 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50  dark:bg-zinc-950 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 mb-4">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary mb-4">
             <Zap className="h-7 w-7 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+          <h1 className="text-2xl font-bold text-foreground">
             Welcome to Tabex
           </h1>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+          <p className="text-sm text-muted mt-1">
             Sign in to your account
           </p>
         </div>
 
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm p-6">
+        <div className="bg-card rounded-2xl border border-border shadow-sm p-6">
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <label className="text-sm font-medium text-subtle">
                 Email
               </label>
               <Input
@@ -78,7 +78,7 @@ function Login() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              <label className="text-sm font-medium text-subtle">
                 Password
               </label>
               <Input
@@ -113,11 +113,11 @@ function Login() {
             </Button>
           </form>
 
-          <div className="mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-800">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 text-center mb-2">
+          <div className="mt-4 pt-4 border-t border-border">
+            <p className="text-xs text-muted text-center mb-2">
               Demo credentials:
             </p>
-            <div className="grid grid-cols-2 gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="grid grid-cols-2 gap-2 text-xs text-muted">
               {users.map((u) => (
                 <InputPlaceHolder
                   key={u.email}
@@ -138,8 +138,8 @@ export default Login;
 
 const InputPlaceHolder = ({ email, password, name }) => {
   return (
-    <div className="bg-zinc-50 dark:bg-zinc-800 rounded p-2">
-      <p className="font-medium text-zinc-700 dark:text-zinc-300">{name}</p>
+    <div className="bg-surface rounded p-2">
+      <p className="font-medium text-subtle">{name}</p>
       <p>{email}</p>
       <p>{password}</p>
     </div>
